@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: my-postgres-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-postgres-db
+  template:
+    metadata:
+      labels:
+        app: my-postgres-db
+    spec:
+      containers:
+      - name: db
+        image: postgres:10.0-alpine
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+          - name: postgres-data
+            # configMap:
+            #   name: postgres-data
+
+
+
